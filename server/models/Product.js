@@ -27,6 +27,10 @@ const productSchema = mongoose.Schema(
       maxlength: 100,
       default: 0,
     },
+    continents: {
+      type: Number,
+      default: 1,
+    },
     views: {
       type: Number,
       default: 0,
@@ -34,6 +38,19 @@ const productSchema = mongoose.Schema(
   },
   { timestamps: true }
 ); // 등록할 때 자동으로 시간
+
+productSchema.index(
+  {
+    title: "text",
+    description: "text",
+  },
+  {
+    weights: {
+      title: 5, //가중치임. 설명보다 타이틀이 5배 더 중요하다.
+      description: 1,
+    },
+  }
+);
 
 const Product = mongoose.model("Product", productSchema);
 
